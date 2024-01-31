@@ -54,6 +54,9 @@ def generate(items, totalItems):
             item.amount = baseAmount
 
         prev = item
+    
+    # calculate amount of most common
+    leastRareAmount = len(list(filter(lambda item: (item.rarity == leastRare), items)))
 
     # distribute remaining padding to most common
     amountDistributed = 0
@@ -61,7 +64,7 @@ def generate(items, totalItems):
         amountDistributed += item.amount
 
     remaining = totalItems - amountDistributed
-    padding = math.floor(remaining/rarityFreqMap[leastRare])
+    padding = math.floor(remaining/leastRareAmount)
     for item in items:
         if item.rarity != leastRare:
             break
