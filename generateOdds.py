@@ -14,28 +14,24 @@ def distributeBehind(items, amountRemaining, prev, leastRare, deltaMap):
     item = items[idx]
     if item.rarity == prev.rarity:
         item.amount = prev.amount
-        return distributeBehind(items[:idx], amountRemaining, item, leastRare, deltaMap)
+        distributeBehind(items[:idx], amountRemaining, item, leastRare, deltaMap)
 
     elif item.rarity == leastRare:
         keep = max(math.floor(amountRemaining/(idx+1)), 1)
         item.amount += keep
         amountRemaining -= keep
-        return distributeBehind(items[:idx], amountRemaining, item, leastRare, deltaMap)
+        distributeBehind(items[:idx], amountRemaining, item, leastRare, deltaMap)
     
     else:
         deltaPct = deltaMap[item.rarity - leastRare]
         keep = max(math.floor((amountRemaining/(idx+1)) * deltaPct), 1)
         item.amount += keep
         amountRemaining -= keep
-        return distributeBehind(items[:idx], amountRemaining, item, leastRare, deltaMap)
+        distributeBehind(items[:idx], amountRemaining, item, leastRare, deltaMap)
         
 def generate(items, totalItems):
     if len(items) == 0:
         return None
-
-    rarityFreqMap = {1:0, 2:0, 3:0, 4:0, 5:0}
-    for item in items:
-        rarityFreqMap[item.rarity] += 1 
 
     # determine least rare
     leastRare = min(set([item.rarity for item in items]))
